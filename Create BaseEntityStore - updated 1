@@ -1,3 +1,5 @@
+Create Create BaseEntityStore - updated 1
+
 export class BaseEntityStore<
   T,
   IDKey extends keyof T = 'id'
