@@ -1,0 +1,45 @@
+export class BaseEntityStore<
+  T,
+  IDKey extends keyof T = 'id'
+> {
+  protected store: ElfStore;
+
+  constructor(
+    protected storeName: string,
+    protected idKey: IDKey = 'id' as IDKey
+  ) {
+    this.store = createStore(
+      { name: storeName },
+      withEntities<T, T[IDKey]>({ idKey }),
+      withProps({})
+    );
+  }
+}
+
+
+interface Todo {
+  id: number;
+  title: string;
+}
+
+export class TodoStore extends BaseEntityStore<Todo> {
+  constructor() {
+    super('todo');
+  }
+}
+
+You can also specify a custom key:
+interface User {
+  userId: string;
+  name: string;
+}
+
+export class UserStore extends BaseEntityStore<User, 'userId'> {
+  constructor() {
+    super('user', 'userId');
+  }
+}
+
+ID was treated as the type of the ID (number, string)	Changed ID to IDKey extends keyof T
+Type mismatch in withEntities<T, ID>	Passed T[IDKey] as the second param
+idKey was not constrained to actual keys	Constrained to keyof T
